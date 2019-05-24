@@ -1,5 +1,5 @@
 <template>
-    <div class="ww-dropdown" @mouseover="setHoverMenu(true)" @mouseleave="setHoverMenu(false)" :class="{'open': editMode || forceOpen || focus }" :style="style">
+    <div class="ww-dropdown" @mouseover="setHoverMenu(true)" @mouseleave="setHoverMenu(false)" :class="{'open': forceOpen || focus }" :style="style">
         <!-- wwManager:start -->
         <wwOrangeButton class="ww-orange-button-top" v-if="editMode"></wwOrangeButton>
         <!-- wwManager:end -->
@@ -15,25 +15,8 @@
                 <div class="triangle-after" :style="{'background-color': backgroundColor}"></div>
             </div>
             <div class="dropdown-list-wrapper">
-                <wwLayoutColumn
-                    tag="div"
-                    :style="{'background-color': backgroundColor}"
-                    ww-default="ww-text"
-                    :ww-list="wwObject.content.data.list"
-                    class="dropdown-list"
-                    @ww-add="wwAdd($event)"
-                    @ww-remove="wwRemove($event)"
-                >
-                    <wwObject
-                        tag="div"
-                        class="dropdown-element"
-                        v-for="(element, index) in wwObject.content.data.list"
-                        :key="element.uniqueId"
-                        :ww-object="element"
-                        @mouseover.native="setHoverColor(true, index)"
-                        @mouseleave.native="setHoverColor(false, index)"
-                        :style="{'background-color': ((elementHover && (activeElementIndex == index)) ? hoverColor: '')}"
-                    ></wwObject>
+                <wwLayoutColumn tag="div" :style="{'background-color': backgroundColor}" ww-default="ww-text" :ww-list="wwObject.content.data.list" class="dropdown-list" @ww-add="wwAdd($event)" @ww-remove="wwRemove($event)">
+                    <wwObject tag="div" class="dropdown-element" v-for="(element, index) in wwObject.content.data.list" :key="element.uniqueId" :ww-object="element" @mouseover.native="setHoverColor(true, index)" @mouseleave.native="setHoverColor(false, index)" :style="{'background-color': ((elementHover && (activeElementIndex == index)) ? hoverColor: '')}"></wwObject>
                 </wwLayoutColumn>
             </div>
         </div>
@@ -96,26 +79,40 @@ export default {
             this.wwObject.content.data = this.wwObject.content.data || {}
 
             this.wwObject.content.data.dropDownStyle = this.wwObject.content.data.dropDownStyle || {};
-            this.wwObject.content.data.dropDownStyle.backgroundColor = '#ffffff'
-            this.wwObject.content.data.dropDownStyle.hoverColor = '#fafafa'
+            this.wwObject.content.data.dropDownStyle.backgroundColor = this.wwObject.content.data.dropDownStyle.backgroundColor || '#ffffff'
+            this.wwObject.content.data.dropDownStyle.hoverColor = this.wwObject.content.data.dropDownStyle.hoverColor || '#fafafa'
             if (!this.wwObject.content.data.dropDownButton) {
                 this.wwObject.content.data.dropDownButton = wwLib.wwObject.getDefault({
                     type: "ww-button",
-
+                    data: {
+                        style: {
+                            backgroundColor: '#FFFFFF00',
+                            borderWidth: 0
+                        }
+                    }
                 });
                 this.wwObjectCtrl.update(this.wwObject);
 
             }
             if (!this.wwObject.content.data.dropDownIcon) {
                 this.wwObject.content.data.dropDownIcon = wwLib.wwObject.getDefault({
-                    type: "ww-icon",
-
-                });
-                this.wwObjectCtrl.update(this.wwObject);
+                    type: 'ww-icon',
+                    data: {
+                        icon: "fas fa-angle-down",
+                        style: {
+                            backgroundColor: '#FFFFFF00',
+                            borderWidth: 0,
+                            size: 24,
+                            fontSize: 24
+                        }
+                    }
+                }),
+                    this.wwObjectCtrl.update(this.wwObject);
 
             }
 
             if (_.isEmpty(this.wwObject.content.data.list)) {
+                this.wwObject.content.data.list = [];
                 this.wwObject.content.data.list.push(
                     wwLib.wwObject.getDefault({
                         type: "ww-text",
@@ -230,6 +227,9 @@ export default {
             this.wwObject.content.data.list.splice(options.index, 1);
             this.wwObjectCtrl.update(this.wwObject);
         },
+        toggle() {
+            this.forceOpen = !this.forceOpen;
+        },
         /* wwManager:end */
 
 
@@ -310,7 +310,7 @@ export default {
     .dropdown-button-wrapper {
         width: 100%;
         height: 100%;
-        padding: 10px;
+        // padding: 10px;
         display: flex;
         align-items: center;
         border-radius: 10px;
@@ -323,14 +323,15 @@ export default {
                 margin-left: 5px;
                 margin-right: 5px;
             }
-            .rotate-icon {
-                transform: rotate(180deg);
-            }
+            // .rotate-icon {
+            //     transform: rotate(180deg);
+            // }
         }
     }
     .dropdown {
         z-index: 10;
-        min-width: 200px;
+        min-width: 100px;
+        width: max-content;
         position: absolute;
         top: calc(100% - 1px);
         opacity: 0;
@@ -390,6 +391,18 @@ export default {
                         color: #8f1afe !important;
                         border-color: #8f1afe !important;
                     }
+                }
+            }
+        }
+    }
+    .dropdown-button-wrapper {
+        .dropdown-icon {
+            .ww-icon > div {
+                transition: all 0.3s ease;
+            }
+            .rotate-icon {
+                .ww-icon > div {
+                    transform: rotate(180deg);
                 }
             }
         }
