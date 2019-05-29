@@ -387,10 +387,10 @@ export default {
             .dropdown-element {
                 &.open,
                 &:hover {
-                    * {
-                        color: #8f1afe !important;
-                        border-color: #8f1afe !important;
-                    }
+                    // * {
+                    //     color: #8f1afe !important;
+                    //     border-color: #8f1afe !important;
+                    // }
                 }
             }
         }
