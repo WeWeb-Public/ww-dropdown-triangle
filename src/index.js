@@ -7,6 +7,33 @@ const addComponent = function () {
     if (window.vm) {
 
         wwLib.wwObject.register({
+            /* wwManager:start */
+            cmsOptions: {
+                wwObjectMenu: {
+                    items: [
+                        {
+                            name: 'OPTIONS',
+                            main: true,
+                            text: {
+                                en: 'Options',
+                                fr: 'Options'
+                            },
+                            icon: 'wwi wwi-edit-other',
+                            action: 'edit'
+                        },
+                        {
+                            name: 'TOGGLE',
+                            text: {
+                                en: 'Keep open',
+                                fr: 'Garder ouvert'
+                            },
+                            icon: 'wwi wwi-chevron-down',
+                            action: 'toggle'
+                        }
+                    ]
+                }
+            },
+            /* wwManager:end */
             content: {
                 type: name,
                 data: {
@@ -47,34 +74,7 @@ const addComponent = function () {
                 wwAnalytics: {
                     click: true
                 }
-            },
-            /* wwManager:start */
-            cmsOptions: {
-                wwObjectMenu: {
-                    items: [
-                        {
-                            name: 'OPTIONS',
-                            main: true,
-                            text: {
-                                en: 'Options',
-                                fr: 'Options'
-                            },
-                            icon: 'wwi wwi-edit-other',
-                            action: 'edit'
-                        },
-                        {
-                            name: 'TOGGLE',
-                            text: {
-                                en: 'Keep open',
-                                fr: 'Garder ouvert'
-                            },
-                            icon: 'wwi wwi-chevron-down',
-                            action: 'toggle'
-                        }
-                    ]
-                }
             }
-            /* wwManager:end */
         });
 
         window.vm.addComponent({

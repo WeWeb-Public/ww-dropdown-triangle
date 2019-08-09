@@ -4,9 +4,9 @@
         <wwOrangeButton class="ww-orange-button-top" v-if="editMode"></wwOrangeButton>
         <!-- wwManager:end -->
         <div class="dropdown-button-wrapper" :style="{'background-color': (enabledMenu ? hoverColor : backgroundColor)}">
-            <wwObject tag="div" class="dropdown-button" :ww-object="wwObject.content.data.dropDownButton"></wwObject>
+            <wwObject tag="div" class="dropdown-button" :ww-object="wwObject.data.dropDownButton"></wwObject>
             <div class="dropdown-icon">
-                <wwObject tag="div" class="dropdown-button-icon" :ww-object="wwObject.content.data.dropDownIcon" :class="{'rotate-icon':enabledMenu}"></wwObject>
+                <wwObject tag="div" class="dropdown-button-icon" :ww-object="wwObject.data.dropDownIcon" :class="{'rotate-icon':enabledMenu}"></wwObject>
             </div>
         </div>
 
@@ -15,8 +15,8 @@
                 <div class="triangle-after" :style="{'background-color': backgroundColor}"></div>
             </div>
             <div class="dropdown-list-wrapper">
-                <wwLayoutColumn tag="div" :style="{'background-color': backgroundColor}" ww-default="ww-text" :ww-list="wwObject.content.data.list" class="dropdown-list" @ww-add="wwAdd($event)" @ww-remove="wwRemove($event)">
-                    <wwObject tag="div" class="dropdown-element" v-for="(element, index) in wwObject.content.data.list" :key="element.uniqueId" :ww-object="element" @mouseover.native="setHoverColor(true, index)" @mouseleave.native="setHoverColor(false, index)" :style="{'background-color': ((elementHover && (activeElementIndex == index)) ? hoverColor: '')}"></wwObject>
+                <wwLayoutColumn tag="div" :style="{'background-color': backgroundColor}" ww-default="ww-text" :ww-list="wwObject.data.list" class="dropdown-list" @ww-add="wwAdd($event)" @ww-remove="wwRemove($event)">
+                    <wwObject tag="div" class="dropdown-element" v-for="(element, index) in wwObject.data.list" :key="element.uniqueId" :ww-object="element" @mouseover.native="setHoverColor(true, index)" @mouseleave.native="setHoverColor(false, index)" :style="{'background-color': ((elementHover && (activeElementIndex == index)) ? hoverColor: '')}"></wwObject>
                 </wwLayoutColumn>
             </div>
         </div>
@@ -51,7 +51,7 @@ export default {
         },
         style() {
             let style = {};
-            let wwObjectStyle = this.wwObject.content.data.style || {};
+            let wwObjectStyle = this.wwObject.style || {};
             style.justifyContent = wwObjectStyle.justify || 'center';
             return style;
         },
@@ -60,10 +60,10 @@ export default {
         },
 
         backgroundColor() {
-            return this.wwObject.content.data.dropDownStyle.backgroundColor
+            return this.wwObject.data.dropDownStyle.backgroundColor
         },
         hoverColor() {
-            return this.wwObject.content.data.dropDownStyle.hoverColor
+            return this.wwObject.data.dropDownStyle.hoverColor
         },
         activeElementIndex() {
             return this.activeElement
@@ -76,13 +76,13 @@ export default {
     beforeDestroy() { },
     methods: {
         init() {
-            this.wwObject.content.data = this.wwObject.content.data || {}
+            this.wwObject.data = this.wwObject.data || {}
 
-            this.wwObject.content.data.dropDownStyle = this.wwObject.content.data.dropDownStyle || {};
-            this.wwObject.content.data.dropDownStyle.backgroundColor = this.wwObject.content.data.dropDownStyle.backgroundColor || '#ffffff'
-            this.wwObject.content.data.dropDownStyle.hoverColor = this.wwObject.content.data.dropDownStyle.hoverColor || '#fafafa'
-            if (!this.wwObject.content.data.dropDownButton) {
-                this.wwObject.content.data.dropDownButton = wwLib.wwObject.getDefault({
+            this.wwObject.data.dropDownStyle = this.wwObject.data.dropDownStyle || {};
+            this.wwObject.data.dropDownStyle.backgroundColor = this.wwObject.data.dropDownStyle.backgroundColor || '#ffffff'
+            this.wwObject.data.dropDownStyle.hoverColor = this.wwObject.data.dropDownStyle.hoverColor || '#fafafa'
+            if (!this.wwObject.data.dropDownButton) {
+                this.wwObject.data.dropDownButton = wwLib.wwObject.getDefault({
                     type: "ww-button",
                     data: {
                         style: {
@@ -94,8 +94,8 @@ export default {
                 this.wwObjectCtrl.update(this.wwObject);
 
             }
-            if (!this.wwObject.content.data.dropDownIcon) {
-                this.wwObject.content.data.dropDownIcon = wwLib.wwObject.getDefault({
+            if (!this.wwObject.data.dropDownIcon) {
+                this.wwObject.data.dropDownIcon = wwLib.wwObject.getDefault({
                     type: 'ww-icon',
                     data: {
                         icon: "fas fa-angle-down",
@@ -111,9 +111,9 @@ export default {
 
             }
 
-            if (_.isEmpty(this.wwObject.content.data.list)) {
-                this.wwObject.content.data.list = [];
-                this.wwObject.content.data.list.push(
+            if (_.isEmpty(this.wwObject.data.list)) {
+                this.wwObject.data.list = [];
+                this.wwObject.data.list.push(
                     wwLib.wwObject.getDefault({
                         type: "ww-text",
                         data: {
@@ -200,10 +200,10 @@ export default {
 
 
                 if (typeof (result.backgroundColor) != 'undefined') {
-                    this.wwObject.content.data.dropDownStyle.backgroundColor = result.backgroundColor;
+                    this.wwObject.data.dropDownStyle.backgroundColor = result.backgroundColor;
                 }
                 if (typeof (result.hoverColor) != 'undefined') {
-                    this.wwObject.content.data.dropDownStyle.hoverColor = result.hoverColor;
+                    this.wwObject.data.dropDownStyle.hoverColor = result.hoverColor;
                 }
 
                 this.wwObjectCtrl.update(this.wwObject);
@@ -220,11 +220,11 @@ export default {
             this.focus = focusId == this.$parent._uid
         },
         wwAdd(options) {
-            this.wwObject.content.data.list.splice(options.index, 0, options.wwObject);
+            this.wwObject.data.list.splice(options.index, 0, options.wwObject);
             this.wwObjectCtrl.update(this.wwObject);
         },
         wwRemove(options) {
-            this.wwObject.content.data.list.splice(options.index, 1);
+            this.wwObject.data.list.splice(options.index, 1);
             this.wwObjectCtrl.update(this.wwObject);
         },
         toggle() {
