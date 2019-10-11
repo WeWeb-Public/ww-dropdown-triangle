@@ -288,9 +288,8 @@ export default {
     .triangle {
         width: 20px;
         height: 20px;
-        position: relative;
+        position: absolute;
         overflow: hidden;
-        float: right;
         right: 50%;
         top: 1px;
         z-index: 10;
@@ -344,6 +343,7 @@ export default {
             display: flex;
             flex-direction: column;
             position: relative;
+            top: 20px;
             .background {
                 position: absolute;
                 top: 0;

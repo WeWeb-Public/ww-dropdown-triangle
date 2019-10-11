@@ -10,27 +10,8 @@ const addComponent = function () {
             content: {
                 type: name,
                 data: {
-                    dropDownIcon: wwLib.wwObject.getDefault({
-                        type: 'ww-icon',
-                        data: {
-                            icon: "fas fa-angle-down",
-                            style: {
-                                backgroundColor: '#FFFFFF00',
-                                borderWidth: 0,
-                                size: 24,
-                                fontSize: 24
-                            }
-                        }
-                    }),
-                    dropDownButton: wwLib.wwObject.getDefault({
-                        type: "ww-button",
-                        data: {
-                            style: {
-                                backgroundColor: '#FFFFFF00',
-                                borderWidth: 0
-                            }
-                        }
-                    }),
+                    dropDownIcon: null,
+                    dropDownButton: null,
                     style: {
                         justify: null
                     },
