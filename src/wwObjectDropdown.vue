@@ -60,13 +60,13 @@ export default {
         },
 
         backgroundColor() {
-            return this.wwObject.content.data.dropDownStyle.backgroundColor
+            return this.wwObject.content.data.dropDownStyle ? this.wwObject.content.data.dropDownStyle.backgroundColor : '';
         },
         hoverColor() {
-            return this.wwObject.content.data.dropDownStyle.hoverColor
+            return this.wwObject.content.data.dropDownStyle ? this.wwObject.content.data.dropDownStyle.hoverColor : '';
         },
         activeElementIndex() {
-            return this.activeElement
+            return this.activeElement;
         }
 
 
@@ -81,6 +81,8 @@ export default {
             this.wwObject.content.data.dropDownStyle = this.wwObject.content.data.dropDownStyle || {};
             this.wwObject.content.data.dropDownStyle.backgroundColor = this.wwObject.content.data.dropDownStyle.backgroundColor || '#ffffff'
             this.wwObject.content.data.dropDownStyle.hoverColor = this.wwObject.content.data.dropDownStyle.hoverColor || '#fafafa'
+
+
             if (!this.wwObject.content.data.dropDownButton) {
                 this.wwObject.content.data.dropDownButton = wwLib.wwObject.getDefault({
                     type: "ww-button",
